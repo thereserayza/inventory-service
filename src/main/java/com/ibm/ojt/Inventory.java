@@ -8,7 +8,7 @@ public class Inventory {
 	@Id
 	private String id;
 	
-	private String prodcode;
+	private String prodCode;
 	private int qtyAvailable;
 	
 	public String getId() {
@@ -17,11 +17,11 @@ public class Inventory {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getProdcode() {
-		return prodcode;
+	public String getProdCode() {
+		return prodCode;
 	}
-	public void setProdcode(String prodcode) {
-		this.prodcode = prodcode;
+	public void setProdCode(String prodCode) {
+		this.prodCode = prodCode;
 	}
 	public int getQtyAvailable() {
 		return qtyAvailable;
