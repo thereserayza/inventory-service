@@ -31,24 +31,24 @@ public class InventoryController {
 		return mongoTemplate.findAll(Inventory.class, "inventory");
 	}
 	
-	@GetMapping("/{prodCode}")
-	public List<Inventory> findByProdCode(@PathVariable String prodCode) {
-		Query query = new Query().addCriteria(Criteria.where("prodCode").regex(prodCode));
+	@GetMapping("/{prodcode}")
+	public List<Inventory> findByProdCode(@PathVariable String prodcode) {
+		Query query = new Query().addCriteria(Criteria.where("prodCode").regex(prodcode));
 		return mongoTemplate.find(query, Inventory.class, "inventory");
 	}
 	
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void addProduct(@RequestBody Inventory inventory) {
-		Query query = new Query().addCriteria(Criteria.where("prodcode").is(inventory.getProdCode()));
+		Query query = new Query().addCriteria(Criteria.where("prodCode").is(inventory.getProdCode()));
 		Inventory _inventory = mongoTemplate.findOne(query, Inventory.class, "inventory");
 		if (_inventory == null) {
 			mongoTemplate.save(inventory, "inventory");
 		}
 	}
 	
-	@PutMapping("/{prodCode}")
-	public void updateQuantity(@RequestBody Inventory inventory, @PathVariable String prodCode) {
-		Query query = new Query().addCriteria(Criteria.where("prodCode").is(prodCode));
+	@PutMapping(value="/{prodcode}", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void updateQuantity(@RequestBody Inventory inventory, @PathVariable String prodcode) {
+		Query query = new Query().addCriteria(Criteria.where("prodCode").is(prodcode));
 		Inventory _inventory = mongoTemplate.findOne(query, Inventory.class, "inventory");
 		if (_inventory != null) {
 			Update update = new Update().set("qtyAvailable", inventory.getQtyAvailable());
@@ -56,9 +56,9 @@ public class InventoryController {
 		}
 	}
 	
-	@DeleteMapping("/{prodCode}")
-	public void deleteProduct(@PathVariable String prodCode) {
-		Query query = new Query().addCriteria(Criteria.where("prodCode").is(prodCode));
+	@DeleteMapping("/{prodcode}")
+	public void deleteProduct(@PathVariable String prodcode) {
+		Query query = new Query().addCriteria(Criteria.where("prodCode").is(prodcode));
 		Inventory _inventory = mongoTemplate.findOne(query, Inventory.class, "inventory");
 		if (_inventory != null) {
 			mongoTemplate.remove(query, "inventory");
