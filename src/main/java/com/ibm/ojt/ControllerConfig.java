@@ -7,10 +7,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class ControllerConfig  extends RepositoryRestConfigurerAdapter{
-
-	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-		config.exposeIdsFor(Inventory.class);
-	}
 	
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")

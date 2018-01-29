@@ -46,12 +46,22 @@ public class InventoryController {
 		}
 	}
 	
-	@PutMapping(value="/{prodcode}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void updateQuantity(@RequestBody Inventory inventory, @PathVariable String prodcode) {
+	@PutMapping(value="/buy/{prodcode}", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void decreaseStocks(@RequestBody Inventory inventory, @PathVariable String prodcode) {
 		Query query = new Query().addCriteria(Criteria.where("prodCode").is(prodcode));
 		Inventory _inventory = mongoTemplate.findOne(query, Inventory.class, "inventory");
 		if (_inventory != null) {
-			Update update = new Update().set("qtyAvailable", inventory.getQtyAvailable());
+			Update update = new Update().inc("qtyAvailable", inventory.getQtyAvailable() * -1);
+			mongoTemplate.updateFirst(query, update, "inventory");
+		}
+	}
+	
+	@PutMapping(value="/replenish/{prodcode}", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void replenishStocks(@RequestBody Inventory inventory, @PathVariable String prodcode) {
+		Query query = new Query().addCriteria(Criteria.where("prodCode").is(prodcode));
+		Inventory _inventory = mongoTemplate.findOne(query, Inventory.class, "inventory");
+		if (_inventory != null) {
+			Update update = new Update().inc("qtyAvailable", inventory.getQtyAvailable());
 			mongoTemplate.updateFirst(query, update, "inventory");
 		}
 	}
